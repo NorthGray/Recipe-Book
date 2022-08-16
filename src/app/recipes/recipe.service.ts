@@ -5,7 +5,7 @@ import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Subject } from 'rxjs/internal/Subject';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class RecipeService {
@@ -52,7 +52,7 @@ export class RecipeService {
       });
   }
   fetchRecipes() {
-    this.http
+    return this.http
       .get<Recipe[]>(
         'https://recipe-book-69dee-default-rtdb.firebaseio.com/recipes.json'
       )
@@ -64,11 +64,9 @@ export class RecipeService {
               ingredients: recipe.ingredients ? recipe.ingredients : [],
             };
           });
-        })
-      )
-      .subscribe((recipes: Recipe[]) => {
-        this.setRecipes(recipes);
-      });
+        }),
+        tap((recipes) => this.setRecipes(recipes))
+      );
   }
   getRecipes() {
     return this.recipes.slice();
