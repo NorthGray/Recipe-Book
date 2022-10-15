@@ -8,9 +8,9 @@ import { RecipeService } from '../recipes/recipe.service';
 export class HeaderComponent {
   constructor(private recipeService: RecipeService) {}
   onSaveData() {
-    this.recipeService.storeRecipes();
+    // this.recipeService.storeRecipes();
   }
   onFetchData() {
-    this.recipeService.fetchRecipes().subscribe();
+    //  this.recipeService.fetchRecipes().subscribe();
   }
 }
